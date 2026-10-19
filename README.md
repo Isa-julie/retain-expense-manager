@@ -2,7 +2,7 @@
 
 Retain helps you record what you spend, set a monthly budget, and see where your money goes.
 
-**Live application:** Not deployed yet. Publish the frontend and backend using the steps below, then replace this line with the public frontend URL before submitting.
+**Live application:** https://retain-expense-manager-tan.vercel.app
 
 - **Frontend:** React, TypeScript, Vite, Redux Toolkit, React Router
 - **Backend:** Node.js, Express, MongoDB (Mongoose), JWT login
@@ -76,9 +76,9 @@ Send protected requests with `Authorization: Bearer <token>`, using the token re
 
 ## Deploy
 
-1. **Database:** create a free MongoDB Atlas cluster. Copy its connection string.
-2. **Backend (Render):** create a Blueprint from this repository using `render.yaml`. It configures the API as a free web service. Set `MONGODB_URI`, `CLIENT_URL` (your frontend address), `ADMIN_EMAIL`, and a unique, strong `ADMIN_PASSWORD` in the service environment. Render generates `JWT_SECRET`. After the service is created, run `npm run seed` once from the Render Shell.
-3. **Frontend (Vercel or Netlify):** root folder `client`, build command `npm run build`, output folder `dist`.
-   Set `VITE_API_URL` to `https://your-backend-address/api`. The included `vercel.json` and `public/_redirects` make page refreshes work.
-4. Verify the deployed API at `https://your-backend-address/api/health`, then sign in and test expense creation and refresh navigation on the live frontend.
-5. Replace the **Live application** line at the top of this README with the public frontend URL. Do not submit while it still says “Not deployed yet.”
+1. **Database:** create a free MongoDB Atlas cluster and add the backend host's outbound IP ranges to its IP Access List.
+2. **Backend (Render):** use the included `render.yaml` or configure a Node web service with root directory `server`, build command `npm ci`, and start command `npm start`. Set `MONGODB_URI`, `JWT_SECRET`, and `CLIENT_URL` in the service environment.
+3. **Frontend (Vercel or Netlify):** root folder `client`, build command `npm run build`, output folder `dist`. Set `VITE_API_URL` to `https://your-backend-address/api`. The included `vercel.json` and `public/_redirects` make page refreshes work.
+4. Verify the API at `https://your-backend-address/api/health`, then sign in and test expense creation and refresh navigation on the live frontend.
+
+For the hosted admin account, sign up in the app with the configured `ADMIN_EMAIL` and the password you choose. Render's free plan does not provide a shell, so to promote that existing account, temporarily set `ADMIN_PASSWORD` in Render and set the service's Pre-Deploy Command to `npm run seed`. Deploy once, then remove the temporary password and pre-deploy command. The seed script promotes the existing account without changing its sign-up password.
